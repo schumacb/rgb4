@@ -23,9 +23,11 @@ public class ControlPanel extends JPanel {
 	public JSpinner movementSpeed;
 	public JToggleButton movementPlayPause;
 	public JToggleButton playPause;
+	public JToggleButton horizontalMovement;
 
 	public ControlPanel() {
-		flip = new JToggleButton("Horizontal spiegeln");
+		flip = new JToggleButton("Grafik spiegeln");
+		horizontalMovement = new JToggleButton("Vertikal modus");
 		animationChooser = new JComboBox();
 		playPause = new JToggleButton(new ImageIcon(ClassLoader.getSystemResource("de/fhtrier/gdig/tools/spriteviewer/icons/pause.png")));
 		movementPlayPause = new JToggleButton(new ImageIcon(ClassLoader.getSystemResource("de/fhtrier/gdig/tools/spriteviewer/icons/play.png")));
@@ -39,6 +41,7 @@ public class ControlPanel extends JPanel {
 		GroupLayout gl = new GroupLayout(this);
 		gl.setHorizontalGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING, false)
 				.addGroup(gl.createSequentialGroup().addComponent(flip))
+				.addGroup(gl.createSequentialGroup().addComponent(horizontalMovement))
 				.addGroup(gl.createSequentialGroup().addComponent(animationLabel))				
 				.addGroup(gl.createSequentialGroup().addComponent(animationChooser))
 				.addGroup(gl.createSequentialGroup().addComponent(animationSpeedLabel))				
@@ -48,6 +51,7 @@ public class ControlPanel extends JPanel {
 		
 		gl.setVerticalGroup(gl.createSequentialGroup()
 				.addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE, false).addComponent(flip))
+				.addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE, false).addComponent(horizontalMovement))
 				.addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING, false).addComponent(animationLabel))
 				.addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE, false).addComponent(animationChooser))
 				.addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING, false).addComponent(animationSpeedLabel))
@@ -59,6 +63,7 @@ public class ControlPanel extends JPanel {
 		gl.setAutoCreateContainerGaps(true);
 				setLayout(gl);
 				add(flip);
+				add(horizontalMovement);
 				add(animationChooser);
 				add(playPause);
 				add(animationSpeed);

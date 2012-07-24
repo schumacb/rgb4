@@ -63,14 +63,33 @@ public class SpriteViewerGame extends BasicGame {
 			d.r = 1.0f - d.r/1.3f;
 			d.g = 1.0f - d.g/1.4f;
 			d.b = 1.0f - d.b/1.5f;
-			g.setColor(d);
-			g.fillRect(40.0f, gc.getHeight()/2.0f, gc.getWidth() - 80.0f, 10);
 			
-			// Animation zeichnen
-			g.translate(gc.getWidth()/2.0f - a.getWidth()/2 + offset, gc.getHeight()/2.0f - a.getHeight());
-			if(Main.controlPanel.flip.getModel().isSelected()) {
-				g.scale(-1.0f, 1.0f);
-				g.translate(-a.getWidth(), 0.0f);
+			
+			if(!Main.controlPanel.horizontalMovement.getModel().isSelected())
+			{
+				g.setColor(d);
+				g.fillRect(40.0f, gc.getHeight()/2.0f, gc.getWidth() - 80.0f, 10);
+				g.fillRect(40.0f, gc.getHeight()/2.0f-a.getHeight()-10, gc.getWidth() - 80.0f, 10);
+				
+				// Animation zeichnen
+				g.translate(gc.getWidth()/2.0f - a.getWidth()/2 + offset, gc.getHeight()/2.0f - a.getHeight());
+				if(Main.controlPanel.flip.getModel().isSelected()) {
+					g.scale(-1.0f, 1.0f);
+					g.translate(-a.getWidth(), 0.0f);
+				}
+			}
+			else
+			{
+				g.setColor(d);
+				g.fillRect(gc.getWidth()/2.0f+a.getWidth()/2.0f, 40.0f, 10, gc.getHeight() - 80.0f-a.getWidth());
+				g.fillRect(gc.getWidth()/2.0f-a.getWidth()/2.0f-10, 40.0f, 10, gc.getHeight() - 80.0f-a.getWidth());
+				
+				// Animation zeichnen
+				g.translate(gc.getWidth()/2.0f - a.getWidth()/2, gc.getHeight()/2.0f - a.getHeight() + offset);
+				if(Main.controlPanel.flip.getModel().isSelected()) {
+					g.scale(1.0f, -1.0f);
+					g.translate(0.0f,-a.getHeight());
+				}
 			}
 			a.draw(0, 0);
 		}
@@ -85,6 +104,7 @@ public class SpriteViewerGame extends BasicGame {
 	public void update(GameContainer gc, int delta) throws SlickException {
 		AnimationDataContainer adc = (AnimationDataContainer)Main.controlPanel.animationChooser.getSelectedItem();
 		Animation a = null;
+		int aHeight = 0;
 		if(adc != null) {
 			a = adc.animation;
 		}
@@ -98,16 +118,29 @@ public class SpriteViewerGame extends BasicGame {
 				}
 				a.update(delta);
 			}
+			aHeight = a.getHeight();
 		}
 		
 		// offset berechnen
 		if(Main.controlPanel.movementPlayPause.isSelected()) {
 			offset += ((Integer)Main.controlPanel.movementSpeed.getValue()) * delta/1000.0f;
-			if (offset > gc.getWidth()/2.0f-40.0f
-				|| offset < -gc.getWidth()/2.0f+40.0f) {
-				offset *= -1.0f;
+			if (!Main.controlPanel.horizontalMovement.getModel().isSelected()) {
+				float minOffset = -gc.getWidth()/2.0f+40.0f; 
+				float maxOffset = gc.getWidth()/2.0f-40.0f;
+				if (offset >  maxOffset) {
+					offset = minOffset;
+				} else if(offset < minOffset) {
+					offset = maxOffset;
+				}
+			} else {
+				float minOffset = -gc.getHeight()/2.0f+40.0f+aHeight;
+				float maxOffset = gc.getHeight()/2.0f-40.0f-aHeight;
+				if (offset > maxOffset) {
+					offset = minOffset;
+				} else if(offset < minOffset) {
+					offset = maxOffset;
+				}
 			}
 		}
 	}
-
 }

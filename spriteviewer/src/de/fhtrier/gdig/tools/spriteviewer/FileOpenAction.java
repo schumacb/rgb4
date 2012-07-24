@@ -10,7 +10,7 @@ import javax.swing.JFileChooser;
 public class FileOpenAction extends AbstractAction {
 
 	public FileOpenAction() {
-		super("Ã–ffnen");
+		super("Öffnen");
 	}
 	/**
 	 * 
